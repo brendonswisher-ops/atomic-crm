@@ -37,10 +37,11 @@ export const defaultDealCategories = [
 ];
 
 export const defaultNoteStatuses = [
-  { value: "cold", label: "Cold", color: "#7dbde8" },
-  { value: "warm", label: "Warm", color: "#e8cb7d" },
-  { value: "hot", label: "Hot", color: "#e88b7d" },
-  { value: "in-contract", label: "In Contract", color: "#a4e87d" },
+  { value: "new", label: "New", color: "#94a3b8" },
+  { value: "contacted", label: "Contacted", color: "#7dbde8" },
+  { value: "qualified", label: "Qualified", color: "#a4e87d" },
+  { value: "unqualified", label: "Unqualified", color: "#e8cb7d" },
+  { value: "do_not_contact", label: "Do not contact", color: "#e88b7d" },
 ];
 
 export const defaultTaskTypes = [
