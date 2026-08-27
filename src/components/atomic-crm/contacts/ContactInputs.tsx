@@ -29,6 +29,7 @@ import {
   contactGender,
   contactLeadSources,
   contactLevels,
+  contactQepStatuses,
   translateContactGenderLabel,
   translatePersonalInfoTypeLabel,
 } from "./contactModel.ts";
@@ -397,6 +398,20 @@ const ContactMiscInputs = () => {
         choices={contactLevels}
         helperText={false}
         emptyText="None"
+      />
+      <SelectInput
+        source="qep_status"
+        label={translate("resources.contacts.fields.qep_status", {
+          _: "QEP",
+        })}
+        choices={contactQepStatuses.map((choice) => ({
+          id: choice.id,
+          name: translate(`resources.contacts.qep.${choice.id}`, {
+            _: choice.name,
+          }),
+        }))}
+        helperText={false}
+        defaultValue="unknown"
       />
     </div>
   );
