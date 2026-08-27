@@ -38,7 +38,7 @@ export const StatusSelector = ({
     // use native select on mobile for better performance and accessibility
     const selectedOption = noteStatuses.find((s) => s.value === status);
     return (
-      <div className={cn("relative", "w-32", triggerClassName)}>
+      <div className={cn("relative", "min-w-44", triggerClassName)}>
         <div
           aria-hidden="true"
           className={cn(
@@ -95,7 +95,7 @@ export const StatusSelector = ({
       value={status || NONE_VALUE}
       onValueChange={handleValueChange}
     >
-      <SelectTrigger className={cn("w-32", triggerClassName)}>
+      <SelectTrigger className={cn("min-w-44", triggerClassName)}>
         <SelectValue placeholder={noneLabel} />
       </SelectTrigger>
       <SelectContent>
