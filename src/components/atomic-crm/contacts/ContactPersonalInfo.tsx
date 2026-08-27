@@ -1,13 +1,33 @@
 import { useState } from "react";
-import { useRecordContext, useTranslate, WithRecord } from "ra-core";
+import {
+  RecordRepresentation,
+  useRecordContext,
+  useTranslate,
+  WithRecord,
+} from "ra-core";
 import { ArrayField } from "@/components/admin/array-field";
+import { DateField } from "@/components/admin/date-field";
 import { SingleFieldList } from "@/components/admin/single-field-list";
 import { TextField } from "@/components/admin/text-field";
 import { EmailField } from "@/components/admin/email-field";
-import { Mail, Phone, Linkedin, Check } from "lucide-react";
+import { ReferenceField } from "@/components/admin/reference-field";
+import {
+  Building2,
+  Cake,
+  Languages,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+  Check,
+  User,
+} from "lucide-react";
 import type { ReactNode } from "react";
 import {
   contactGender,
+  contactLeadSources,
+  contactLevels,
+  formatContactAddress,
   translateContactGenderLabel,
   translatePersonalInfoTypeLabel,
 } from "./contactModel";
@@ -18,6 +38,27 @@ export const ContactPersonalInfo = () => {
   const translate = useTranslate();
 
   if (!record) return null;
+
+  const mailing = formatContactAddress(
+    record.mailing_street,
+    record.mailing_city,
+    record.mailing_state,
+    record.mailing_zip,
+    record.mailing_country,
+  );
+  const otherAddress = formatContactAddress(
+    record.other_street,
+    record.other_city,
+    record.other_state,
+    record.other_zip,
+    record.other_country,
+  );
+  const leadSource =
+    contactLeadSources.find((source) => source.id === record.lead_source)
+      ?.name || record.lead_source;
+  const level =
+    contactLevels.find((item) => item.id === record.level)?.name ||
+    record.level;
 
   return (
     <div>
@@ -58,6 +99,92 @@ export const ContactPersonalInfo = () => {
           />
         </SingleFieldList>
       </ArrayField>
+      {record.department && (
+        <PersonalInfoRow
+          icon={<Building2 className="w-4 h-4 text-muted-foreground" />}
+          primary={<span>{record.department}</span>}
+        />
+      )}
+      {record.reports_to != null && (
+        <PersonalInfoRow
+          icon={<User className="w-4 h-4 text-muted-foreground" />}
+          primary={
+            <span className="flex flex-wrap gap-x-1">
+              <span className="text-muted-foreground">Reports to</span>
+              <ReferenceField
+                source="reports_to"
+                reference="contacts"
+                link="show"
+              >
+                <RecordRepresentation />
+              </ReferenceField>
+            </span>
+          }
+        />
+      )}
+      {mailing && (
+        <PersonalInfoRow
+          icon={<MapPin className="w-4 h-4 text-muted-foreground" />}
+          primary={<span className="whitespace-pre-line">{mailing}</span>}
+        />
+      )}
+      {otherAddress && (
+        <PersonalInfoRow
+          icon={<MapPin className="w-4 h-4 text-muted-foreground" />}
+          primary={
+            <span className="whitespace-pre-line">
+              <span className="text-muted-foreground">Other: </span>
+              {otherAddress}
+            </span>
+          }
+        />
+      )}
+      {(record.assistant || record.assistant_phone) && (
+        <PersonalInfoRow
+          icon={<User className="w-4 h-4 text-muted-foreground" />}
+          primary={
+            <span>
+              {record.assistant}
+              {record.assistant && record.assistant_phone ? ", " : ""}
+              {record.assistant_phone}
+            </span>
+          }
+        />
+      )}
+      {record.birthdate && (
+        <PersonalInfoRow
+          icon={<Cake className="w-4 h-4 text-muted-foreground" />}
+          primary={<DateField source="birthdate" />}
+        />
+      )}
+      {record.languages && (
+        <PersonalInfoRow
+          icon={<Languages className="w-4 h-4 text-muted-foreground" />}
+          primary={<span>{record.languages}</span>}
+        />
+      )}
+      {leadSource && (
+        <PersonalInfoRow
+          icon={null}
+          primary={
+            <span>
+              <span className="text-muted-foreground">Lead source </span>
+              {leadSource}
+            </span>
+          }
+        />
+      )}
+      {level && (
+        <PersonalInfoRow
+          icon={null}
+          primary={
+            <span>
+              <span className="text-muted-foreground">Level </span>
+              {level}
+            </span>
+          }
+        />
+      )}
       {contactGender
         .map((genderOption) => {
           if (record.gender === genderOption.value) {
@@ -129,8 +256,8 @@ const PersonalInfoRow = ({
   const translate = useTranslate();
 
   return (
-    <div className="flex flex-row items-center gap-x-2 py-1 min-h-6">
-      {icon}
+    <div className="flex flex-row items-start gap-x-2 py-1 min-h-6">
+      <span className="mt-0.5 w-4 shrink-0">{icon}</span>
       <div className="flex flex-wrap gap-x-2 gap-y-0 text-sm">
         {primary}
         {showType ? (
