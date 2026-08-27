@@ -39,6 +39,8 @@ export const contactGenderDefaultLabels: Record<string, string> = {
 const personalInfoTypeMap: Record<string, string> = {
   Work: "work",
   Home: "home",
+  Mobile: "mobile",
+  Fax: "fax",
   Other: "other",
 };
 
@@ -60,6 +62,22 @@ export const contactGender: ContactGender[] = [
   },
 ];
 
+export const contactLeadSources = [
+  { id: "web", name: "Web" },
+  { id: "phone_inquiry", name: "Phone Inquiry" },
+  { id: "referral", name: "Referral" },
+  { id: "conference", name: "Conference" },
+  { id: "linkedin", name: "LinkedIn" },
+  { id: "purchased_list", name: "Purchased List" },
+  { id: "other", name: "Other" },
+];
+
+export const contactLevels = [
+  { id: "primary", name: "Primary" },
+  { id: "secondary", name: "Secondary" },
+  { id: "tertiary", name: "Tertiary" },
+];
+
 export const translateContactGenderLabel = (
   gender: { value: string; label: string },
   translate: TranslateFn,
@@ -78,6 +96,20 @@ export const translatePersonalInfoTypeLabel = (
       _: type,
     },
   );
+
+export const formatContactAddress = (
+  street?: string | null,
+  city?: string | null,
+  state?: string | null,
+  zip?: string | null,
+  country?: string | null,
+) => {
+  const cityLine = [city, [state, zip].filter(Boolean).join(" ")]
+    .filter(Boolean)
+    .join(", ");
+  const lines = [street, cityLine, country].filter(Boolean);
+  return lines.length ? lines.join("\n") : null;
+};
 
 /**
  * Folds a long line according to vCard specification (max 75 chars per line)
@@ -130,8 +162,8 @@ export function exportToVCard(
   }
 
   // Organization
-  if (company?.name) {
-    lines.push(`ORG:${company.name}`);
+  if (company?.name || contact.department) {
+    lines.push(`ORG:${company?.name || ""}${contact.department ? `;${contact.department}` : ""}`);
   }
 
   // Emails
@@ -148,6 +180,22 @@ export function exportToVCard(
       const type = phoneObj.type.toUpperCase();
       lines.push(`TEL;TYPE=${type}:${phoneObj.number}`);
     });
+  }
+
+  if (contact.mailing_street || contact.mailing_city) {
+    lines.push(
+      `ADR;TYPE=WORK:;;${contact.mailing_street || ""};${contact.mailing_city || ""};${contact.mailing_state || ""};${contact.mailing_zip || ""};${contact.mailing_country || ""}`,
+    );
+  }
+
+  if (contact.other_street || contact.other_city) {
+    lines.push(
+      `ADR;TYPE=HOME:;;${contact.other_street || ""};${contact.other_city || ""};${contact.other_state || ""};${contact.other_zip || ""};${contact.other_country || ""}`,
+    );
+  }
+
+  if (contact.birthdate) {
+    lines.push(`BDAY:${contact.birthdate.replaceAll("-", "")}`);
   }
 
   // LinkedIn URL

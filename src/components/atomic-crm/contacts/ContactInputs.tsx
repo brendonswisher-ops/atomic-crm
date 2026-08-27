@@ -10,7 +10,9 @@ import type { FocusEvent, ClipboardEventHandler } from "react";
 import { useFormContext } from "react-hook-form";
 import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { AutocompleteInput } from "@/components/admin/autocomplete-input";
 import { BooleanInput } from "@/components/admin/boolean-input";
+import { DateInput } from "@/components/admin/date-input";
 import { ReferenceInput } from "@/components/admin/reference-input";
 import { TextInput } from "@/components/admin/text-input";
 import { RadioButtonGroupInput } from "@/components/admin/radio-button-group-input";
@@ -25,6 +27,8 @@ import { Avatar } from "./Avatar";
 import { AutocompleteCompanyInput } from "../companies/AutocompleteCompanyInput.tsx";
 import {
   contactGender,
+  contactLeadSources,
+  contactLevels,
   translateContactGenderLabel,
   translatePersonalInfoTypeLabel,
 } from "./contactModel.ts";
@@ -78,16 +82,41 @@ const ContactIdentityInputs = () => {
   );
 };
 
+const contactOptionText = (choice: Contact) =>
+  choice ? `${choice.first_name} ${choice.last_name}` : "";
+
 const ContactPositionInputs = () => {
   const translate = useTranslate();
+  const record = useRecordContext<Contact>();
   return (
     <div className="flex flex-col gap-4">
       <h6 className="text-lg font-semibold">
         {translate("resources.contacts.field_categories.position")}
       </h6>
       <TextInput source="title" helperText={false} />
+      <TextInput
+        source="department"
+        label={translate("resources.contacts.fields.department", {
+          _: "Department",
+        })}
+        helperText={false}
+      />
       <ReferenceInput source="company_id" reference="companies" perPage={10}>
         <AutocompleteCompanyInput label="resources.contacts.fields.company_id" />
+      </ReferenceInput>
+      <ReferenceInput
+        source="reports_to"
+        reference="contacts"
+        perPage={10}
+        filter={record?.id ? { "id@neq": record.id } : undefined}
+      >
+        <AutocompleteInput
+          optionText={contactOptionText}
+          helperText={false}
+          label={translate("resources.contacts.fields.reports_to", {
+            _: "Reports To",
+          })}
+        />
       </ReferenceInput>
     </div>
   );
@@ -96,7 +125,7 @@ const ContactPositionInputs = () => {
 const ContactPersonalInformationInputs = () => {
   const translate = useTranslate();
   const { getValues, setValue } = useFormContext();
-  const personalInfoTypes = [
+  const emailTypes = [
     {
       id: "Work",
       name: translatePersonalInfoTypeLabel("Work", translate),
@@ -104,6 +133,28 @@ const ContactPersonalInformationInputs = () => {
     {
       id: "Home",
       name: translatePersonalInfoTypeLabel("Home", translate),
+    },
+    {
+      id: "Other",
+      name: translatePersonalInfoTypeLabel("Other", translate),
+    },
+  ];
+  const phoneTypes = [
+    {
+      id: "Work",
+      name: translatePersonalInfoTypeLabel("Work", translate),
+    },
+    {
+      id: "Mobile",
+      name: translatePersonalInfoTypeLabel("Mobile", translate),
+    },
+    {
+      id: "Home",
+      name: translatePersonalInfoTypeLabel("Home", translate),
+    },
+    {
+      id: "Fax",
+      name: translatePersonalInfoTypeLabel("Fax", translate),
     },
     {
       id: "Other",
@@ -164,7 +215,7 @@ const ContactPersonalInformationInputs = () => {
             helperText={false}
             label={false}
             optionText="name"
-            choices={personalInfoTypes}
+            choices={emailTypes}
             defaultValue="Work"
             className="w-24 min-w-24"
           />
@@ -189,9 +240,9 @@ const ContactPersonalInformationInputs = () => {
             helperText={false}
             label={false}
             optionText="name"
-            choices={personalInfoTypes}
+            choices={phoneTypes}
             defaultValue="Work"
-            className="w-24 min-w-24"
+            className="w-28 min-w-28"
           />
         </SimpleFormIterator>
       </ArrayInput>
@@ -199,6 +250,108 @@ const ContactPersonalInformationInputs = () => {
         source="linkedin_url"
         helperText={false}
         validate={isLinkedinUrl}
+      />
+      <TextInput
+        source="mailing_street"
+        label={translate("resources.contacts.fields.mailing_street", {
+          _: "Mailing Street",
+        })}
+        helperText={false}
+      />
+      <div className="grid grid-cols-2 gap-3">
+        <TextInput
+          source="mailing_city"
+          label={translate("resources.contacts.fields.mailing_city", {
+            _: "Mailing City",
+          })}
+          helperText={false}
+        />
+        <TextInput
+          source="mailing_state"
+          label={translate("resources.contacts.fields.mailing_state", {
+            _: "Mailing State/Province",
+          })}
+          helperText={false}
+        />
+        <TextInput
+          source="mailing_zip"
+          label={translate("resources.contacts.fields.mailing_zip", {
+            _: "Mailing Zip/Postal Code",
+          })}
+          helperText={false}
+        />
+        <TextInput
+          source="mailing_country"
+          label={translate("resources.contacts.fields.mailing_country", {
+            _: "Mailing Country",
+          })}
+          helperText={false}
+        />
+      </div>
+      <TextInput
+        source="other_street"
+        label={translate("resources.contacts.fields.other_street", {
+          _: "Other Street",
+        })}
+        helperText={false}
+      />
+      <div className="grid grid-cols-2 gap-3">
+        <TextInput
+          source="other_city"
+          label={translate("resources.contacts.fields.other_city", {
+            _: "Other City",
+          })}
+          helperText={false}
+        />
+        <TextInput
+          source="other_state"
+          label={translate("resources.contacts.fields.other_state", {
+            _: "Other State/Province",
+          })}
+          helperText={false}
+        />
+        <TextInput
+          source="other_zip"
+          label={translate("resources.contacts.fields.other_zip", {
+            _: "Other Zip/Postal Code",
+          })}
+          helperText={false}
+        />
+        <TextInput
+          source="other_country"
+          label={translate("resources.contacts.fields.other_country", {
+            _: "Other Country",
+          })}
+          helperText={false}
+        />
+      </div>
+      <TextInput
+        source="assistant"
+        label={translate("resources.contacts.fields.assistant", {
+          _: "Assistant",
+        })}
+        helperText={false}
+      />
+      <TextInput
+        source="assistant_phone"
+        label={translate("resources.contacts.fields.assistant_phone", {
+          _: "Asst. Phone",
+        })}
+        helperText={false}
+      />
+      <DateInput
+        source="birthdate"
+        label={translate("resources.contacts.fields.birthdate", {
+          _: "Birthdate",
+        })}
+        helperText={false}
+      />
+      <TextInput
+        source="languages"
+        label={translate("resources.contacts.fields.languages", {
+          _: "Languages",
+        })}
+        helperText={false}
       />
     </div>
   );
@@ -227,6 +380,24 @@ const ContactMiscInputs = () => {
           validate={required()}
         />
       </ReferenceInput>
+      <SelectInput
+        source="lead_source"
+        label={translate("resources.contacts.fields.lead_source", {
+          _: "Lead Source",
+        })}
+        choices={contactLeadSources}
+        helperText={false}
+        emptyText="None"
+      />
+      <SelectInput
+        source="level"
+        label={translate("resources.contacts.fields.level", {
+          _: "Level",
+        })}
+        choices={contactLevels}
+        helperText={false}
+        emptyText="None"
+      />
     </div>
   );
 };
