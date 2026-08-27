@@ -78,7 +78,7 @@ export type EmailAndType = {
 
 export type PhoneNumberAndType = {
   number: string;
-  type: "Work" | "Home" | "Other";
+  type: "Work" | "Home" | "Mobile" | "Fax" | "Other";
 };
 
 export type Contact = {
@@ -100,6 +100,24 @@ export type Contact = {
   phone_jsonb: PhoneNumberAndType[];
   nb_tasks?: number;
   company_name?: string;
+  department?: string | null;
+  birthdate?: string | null;
+  reports_to?: Identifier | null;
+  lead_source?: string | null;
+  mailing_street?: string | null;
+  mailing_city?: string | null;
+  mailing_state?: string | null;
+  mailing_zip?: string | null;
+  mailing_country?: string | null;
+  other_street?: string | null;
+  other_city?: string | null;
+  other_state?: string | null;
+  other_zip?: string | null;
+  other_country?: string | null;
+  assistant?: string | null;
+  assistant_phone?: string | null;
+  languages?: string | null;
+  level?: string | null;
 } & Pick<RaRecord, "id">;
 
 export type ContactNote = {
