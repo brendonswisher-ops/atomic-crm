@@ -28,6 +28,8 @@ import {
   ContactListFilterSummary,
   ContactListFilter,
 } from "./ContactListFilter";
+import { ExportOutlookButton } from "./ExportOutlookButton";
+import { outlookExporter } from "./exportOutlook";
 import { TopToolbar } from "../layout/TopToolbar";
 import { InfinitePagination } from "../misc/InfinitePagination";
 import MobileHeader from "../layout/MobileHeader";
@@ -79,6 +81,7 @@ const ContactBulkActionButtons = () => (
   <>
     <SelectAllButton />
     <BulkTagButton />
+    <BulkExportButton exporter={outlookExporter} label="Export to Outlook" />
     <BulkExportButton />
     <BulkDeleteButton />
   </>
@@ -88,6 +91,7 @@ const ContactListActions = () => (
   <TopToolbar>
     <SortButton fields={["first_name", "last_name", "last_seen"]} />
     <ContactImportButton />
+    <ExportOutlookButton />
     <ExportButton exporter={exporter} />
     <CreateButton />
   </TopToolbar>
