@@ -20,7 +20,6 @@ import { Link } from "react-router";
 import MobileHeader from "../layout/MobileHeader";
 import { MobileContent } from "../layout/MobileContent";
 import { CompanyAvatar } from "../companies/CompanyAvatar";
-import { NoteCreate, NotesIterator, NotesIteratorMobile } from "../notes";
 import { NoteCreateSheet } from "../notes/NoteCreateSheet";
 import { TagsListEdit } from "./TagsListEdit";
 import { ContactEditSheet } from "./ContactEditSheet";
@@ -32,6 +31,7 @@ import type { Contact } from "../types";
 import { Avatar } from "./Avatar";
 import { ContactAside } from "./ContactAside";
 import { MobileBackButton } from "../misc/MobileBackButton";
+import { ContactActivityTimeline } from "./ContactActivityTimeline";
 
 export const ContactShow = (props: ShowBaseProps = {}) => {
   const isMobile = useIsMobile();
@@ -65,8 +65,6 @@ const ContactShowContentMobile = () => {
 
   return (
     <>
-      {/* We need to repeat the note creation sheet here to support the note 
-      create button that is rendered when there are no notes. */}
       <NoteCreateSheet
         open={noteCreateOpen}
         onOpenChange={setNoteCreateOpen}
@@ -136,7 +134,7 @@ const ContactShowContentMobile = () => {
         <Tabs defaultValue="notes" className="w-full">
           <TabsList className="grid w-full grid-cols-3 h-10">
             <TabsTrigger value="notes">
-              {translate("resources.notes.name", { smart_count: 2 })}
+              {translate("crm.activity.timeline", { _: "Activity" })}
             </TabsTrigger>
             <TabsTrigger value="tasks">
               {translate("crm.common.task_count", {
@@ -156,28 +154,16 @@ const ContactShowContentMobile = () => {
               perPage={25}
               disableSyncWithLocation
               storeKey={false}
-              empty={
-                <div className="flex flex-col items-center justify-center py-8 text-center">
-                  <p className="text-muted-foreground mb-4">
-                    {translate("resources.notes.empty")}
-                  </p>
-                  <Button
-                    variant="outline"
-                    onClick={() => setNoteCreateOpen(true)}
-                  >
-                    {translate("resources.notes.action.add")}
-                  </Button>
-                </div>
-              }
+              empty={<ContactActivityTimeline showStatus />}
               loading={false}
               error={false}
               queryOptions={{
                 onError: () => {
-                  /** override to hide notification as error case is handled by NotesIteratorMobile */
+                  /** override to hide notification as error case is handled by the timeline */
                 },
               }}
             >
-              <NotesIteratorMobile contactId={record.id} showStatus />
+              <ContactActivityTimeline showStatus />
             </InfiniteListBase>
           </TabsContent>
 
@@ -236,7 +222,6 @@ const ContactShowContentMobile = () => {
 };
 
 const ContactShowContent = () => {
-  const translate = useTranslate();
   const { record, isPending } = useShowContext<Contact>();
   if (isPending || !record) return null;
 
@@ -253,7 +238,7 @@ const ContactShowContent = () => {
                 </h5>
                 <div className="inline-flex text-sm text-muted-foreground">
                   {record.title && record.company_id != null
-                    ? `${translate("resources.contacts.position_at", {
+                    ? `${useTranslate()("resources.contacts.position_at", {
                         title: record.title,
                       })} `
                     : record.title}
@@ -287,11 +272,9 @@ const ContactShowContent = () => {
               perPage={25}
               disableSyncWithLocation
               storeKey={false}
-              empty={
-                <NoteCreate reference="contacts" showStatus className="mt-4" />
-              }
+              empty={<ContactActivityTimeline showStatus />}
             >
-              <NotesIterator reference="contacts" showStatus />
+              <ContactActivityTimeline showStatus />
             </InfiniteListBase>
           </CardContent>
         </Card>
