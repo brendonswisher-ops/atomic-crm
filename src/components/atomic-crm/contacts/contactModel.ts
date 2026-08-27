@@ -78,6 +78,24 @@ export const contactLevels = [
   { id: "tertiary", name: "Tertiary" },
 ];
 
+export const contactQepStatuses = [
+  { id: "unknown", name: "Unknown" },
+  { id: "qualified", name: "Qualified" },
+  { id: "not_qualified", name: "Not qualified" },
+];
+
+export const translateContactQepLabel = (
+  value: string | null | undefined,
+  translate: TranslateFn,
+) => {
+  const choice =
+    contactQepStatuses.find((item) => item.id === value) ??
+    contactQepStatuses[0];
+  return translate(`resources.contacts.qep.${choice.id}`, {
+    _: choice.name,
+  });
+};
+
 export const translateContactGenderLabel = (
   gender: { value: string; label: string },
   translate: TranslateFn,
