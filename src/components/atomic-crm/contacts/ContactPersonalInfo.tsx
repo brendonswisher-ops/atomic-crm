@@ -29,6 +29,7 @@ import {
   contactLevels,
   formatContactAddress,
   translateContactGenderLabel,
+  translateContactQepLabel,
   translatePersonalInfoTypeLabel,
 } from "./contactModel";
 import type { Contact } from "../types";
@@ -185,6 +186,17 @@ export const ContactPersonalInfo = () => {
           }
         />
       )}
+      <PersonalInfoRow
+        icon={null}
+        primary={
+          <span>
+            <span className="text-muted-foreground">
+              {translate("resources.contacts.fields.qep_status", { _: "QEP" })}{" "}
+            </span>
+            {translateContactQepLabel(record.qep_status, translate)}
+          </span>
+        }
+      />
       {contactGender
         .map((genderOption) => {
           if (record.gender === genderOption.value) {

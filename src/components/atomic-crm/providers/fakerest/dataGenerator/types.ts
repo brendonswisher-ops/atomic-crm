@@ -1,4 +1,6 @@
 import type {
+  Campaign,
+  CampaignContact,
   Company,
   Contact,
   ContactNote,
@@ -19,5 +21,7 @@ export interface Db {
   sales: Sale[];
   tags: Tag[];
   tasks: Task[];
+  campaigns: Campaign[];
+  campaign_contacts: CampaignContact[];
   configuration: Array<{ id: number; config: ConfigurationContextValue }>;
 }

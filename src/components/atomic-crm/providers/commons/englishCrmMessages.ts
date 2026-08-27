@@ -85,6 +85,7 @@ export const englishCrmMessages = {
         background: "Background info (bio, how you met, etc)",
         has_newsletter: "Has newsletter",
         sales_id: "Account manager",
+        qep_status: "QEP",
       },
       action: {
         add: "Add contact",
@@ -188,6 +189,38 @@ export const englishCrmMessages = {
           'Change the status of a contact by adding a note to that contact and clicking on "show options".',
         empty_hint: 'Contacts with a "hot" status will appear here.',
         title: "Hot Contacts",
+      },
+      to_contact: {
+        title: "To contact",
+        empty_hint: "Mark people New or Contacted to see them here.",
+      },
+      views: {
+        all: "All",
+        new: "New",
+        contacted: "Contacted",
+        qualified: "Qualified",
+        family_office: "Family office",
+        kanban: "Kanban",
+      },
+      qep: {
+        unknown: "Unknown",
+        qualified: "Qualified",
+        not_qualified: "Not qualified",
+      },
+      deals: {
+        title: "Deals",
+        empty: "No deals yet",
+        add: "New deal",
+      },
+      campaigns: {
+        add_to_stms: "Add to STMS intro",
+        add: "Add",
+        added: "Added to STMS intro",
+        already_added: "Already in STMS intro",
+        error: "Could not add to STMS intro",
+        missing: "STMS intro list was not found",
+        not_in: "Not in STMS intro",
+        in_list: "In STMS intro",
       },
     },
     deals: {
@@ -365,6 +398,29 @@ export const englishCrmMessages = {
         name_placeholder: "Enter tag name",
       },
     },
+    campaigns: {
+      name: "Outreach |||| Outreach",
+      forcedCaseName: "Outreach",
+      stms_intro: "STMS intro",
+      fields: {
+        name: "Name",
+        description: "Description",
+        status: "Status",
+        created_at: "Created at",
+        members: "Members",
+      },
+      empty: {
+        title: "No outreach lists found",
+        description: "Create an outreach list to track who you have introduced.",
+        members: "No contacts in this list yet.",
+      },
+      statuses: {
+        planned: "Planned",
+        drafted: "Drafted",
+        sent: "Sent",
+        responded: "Responded",
+      },
+    },
   },
   crm: {
     action: {
@@ -437,6 +493,9 @@ export const englishCrmMessages = {
         whats_next: "What's next?",
       },
       upcoming_tasks: "Upcoming Tasks",
+      upcoming_meetings: "Upcoming meetings",
+      upcoming_meetings_empty: "No upcoming meetings.",
+      meeting_fallback: "Meeting",
     },
     header: {
       import_data: "Import data",

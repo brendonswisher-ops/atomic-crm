@@ -19,6 +19,16 @@ export default (): Db => {
   db.deals = generateDeals(db);
   db.deal_notes = generateDealNotes(db);
   db.tasks = generateTasks(db);
+  db.campaigns = [
+    {
+      id: 1,
+      name: "STMS 2026 intro",
+      description: "Intro outreach for Deep Field STMS",
+      status: "active",
+      created_at: new Date().toISOString(),
+    },
+  ];
+  db.campaign_contacts = [];
   db.configuration = [
     {
       id: 1,

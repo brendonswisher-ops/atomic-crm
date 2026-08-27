@@ -12,6 +12,8 @@ import { ContactPersonalInfo } from "./ContactPersonalInfo";
 import { ContactBackgroundInfo } from "./ContactBackgroundInfo";
 import { AsideSection } from "../misc/AsideSection";
 import type { Contact } from "../types";
+import { ContactCampaigns } from "./ContactCampaigns";
+import { ContactDeals } from "./ContactDeals";
 import { ContactMergeButton } from "./ContactMergeButton";
 import { ExportVCardButton } from "./ExportVCardButton";
 
@@ -51,6 +53,20 @@ export const ContactAside = ({ link = "edit" }: { link?: "edit" | "show" }) => {
         title={translate("resources.tags.name", { smart_count: 2 })}
       >
         <TagsListEdit />
+      </AsideSection>
+
+      <AsideSection
+        title={translate("resources.contacts.deals.title", { _: "Deals" })}
+      >
+        <ContactDeals />
+      </AsideSection>
+
+      <AsideSection
+        title={translate("resources.campaigns.stms_intro", {
+          _: "STMS intro",
+        })}
+      >
+        <ContactCampaigns />
       </AsideSection>
 
       <AsideSection

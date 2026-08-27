@@ -88,6 +88,7 @@ export const frenchCrmMessages = {
         background: "Informations de contexte",
         has_newsletter: "Abonné à la newsletter",
         sales_id: "Responsable de compte",
+        qep_status: "QEP",
       },
       action: {
         add: "Ajouter un contact",
@@ -193,6 +194,39 @@ export const frenchCrmMessages = {
           'Changez le statut d\'un contact en ajoutant une note à ce contact et en cliquant sur "afficher les options".',
         empty_hint: 'Les contacts avec un statut "chaud" apparaîtront ici.',
         title: "Contacts chauds",
+      },
+      to_contact: {
+        title: "A contacter",
+        empty_hint:
+          "Passez des contacts en Nouveau ou Contacte pour les voir ici.",
+      },
+      views: {
+        all: "Tous",
+        new: "Nouveau",
+        contacted: "Contacte",
+        qualified: "Qualifie",
+        family_office: "Family office",
+        kanban: "Kanban",
+      },
+      qep: {
+        unknown: "Inconnu",
+        qualified: "Qualifie",
+        not_qualified: "Non qualifie",
+      },
+      deals: {
+        title: "Affaires",
+        empty: "Aucune affaire pour le moment",
+        add: "Nouvelle affaire",
+      },
+      campaigns: {
+        add_to_stms: "Ajouter a STMS intro",
+        add: "Ajouter",
+        added: "Ajoute a STMS intro",
+        already_added: "Deja dans STMS intro",
+        error: "Impossible d'ajouter a STMS intro",
+        missing: "La liste STMS intro est introuvable",
+        not_in: "Pas dans STMS intro",
+        in_list: "Dans STMS intro",
       },
     },
     deals: {
@@ -371,6 +405,30 @@ export const frenchCrmMessages = {
         name_placeholder: "Saisir le nom de l'étiquette",
       },
     },
+    campaigns: {
+      name: "Suivi |||| Suivi",
+      forcedCaseName: "Suivi",
+      stms_intro: "STMS intro",
+      fields: {
+        name: "Nom",
+        description: "Description",
+        status: "Statut",
+        created_at: "Cree le",
+        members: "Membres",
+      },
+      empty: {
+        title: "Aucune liste de suivi trouvee",
+        description:
+          "Creez une liste de suivi pour tracer les personnes presentees.",
+        members: "Aucun contact dans cette liste pour le moment.",
+      },
+      statuses: {
+        planned: "Planifie",
+        drafted: "Redige",
+        sent: "Envoye",
+        responded: "Repondu",
+      },
+    },
   },
   crm: {
     action: {
@@ -444,6 +502,9 @@ export const frenchCrmMessages = {
         whats_next: "Et ensuite ?",
       },
       upcoming_tasks: "Tâches à venir",
+      upcoming_meetings: "Reunions a venir",
+      upcoming_meetings_empty: "Aucune reunion a venir.",
+      meeting_fallback: "Reunion",
     },
     header: {
       import_data: "Importer des données",
