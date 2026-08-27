@@ -6,6 +6,7 @@ import {
   useListContext,
   type Exporter,
 } from "ra-core";
+import { useState } from "react";
 import { BulkActionsToolbar } from "@/components/admin/bulk-actions-toolbar";
 import { BulkDeleteButton } from "@/components/admin/bulk-delete-button";
 import { BulkExportButton } from "@/components/admin/bulk-export-button";
@@ -17,6 +18,7 @@ import { SortButton } from "@/components/admin/sort-button";
 import { Card } from "@/components/ui/card";
 
 import type { Company, Contact, Sale, Tag } from "../types";
+import { BulkAddToCampaignButton } from "./BulkAddToCampaignButton";
 import { BulkTagButton } from "./BulkTagButton";
 import { ContactEmpty } from "./ContactEmpty";
 import { ContactImportButton } from "./ContactImportButton";
@@ -24,10 +26,12 @@ import {
   ContactListContent,
   ContactListContentMobile,
 } from "./ContactListContent";
+import { ContactKanban } from "./ContactKanban";
 import {
   ContactListFilterSummary,
   ContactListFilter,
 } from "./ContactListFilter";
+import { ContactListViews } from "./ContactListViews";
 import { ExportOutlookButton } from "./ExportOutlookButton";
 import { outlookExporter } from "./exportOutlook";
 import { TopToolbar } from "../layout/TopToolbar";
@@ -55,20 +59,26 @@ export const ContactList = () => {
 
 const ContactListLayoutDesktop = () => {
   const { data, isPending, filterValues } = useListContext();
+  const [isKanban, setIsKanban] = useState(false);
 
   const hasFilters = filterValues && Object.keys(filterValues).length > 0;
 
   if (isPending) return null;
 
-  if (!data?.length && !hasFilters) return <ContactEmpty />;
+  if (!data?.length && !hasFilters && !isKanban) return <ContactEmpty />;
 
   return (
     <div className="flex flex-row gap-8">
       <ContactListFilter />
       <div className="w-full flex flex-col gap-4">
-        <Card className="py-0">
-          <ContactListContent />
-        </Card>
+        <ContactListViews isKanban={isKanban} onKanbanChange={setIsKanban} />
+        {isKanban ? (
+          <ContactKanban />
+        ) : (
+          <Card className="py-0">
+            <ContactListContent />
+          </Card>
+        )}
       </div>
       <BulkActionsToolbar>
         <ContactBulkActionButtons />
@@ -81,6 +91,7 @@ const ContactBulkActionButtons = () => (
   <>
     <SelectAllButton />
     <BulkTagButton />
+    <BulkAddToCampaignButton />
     <BulkExportButton exporter={outlookExporter} label="Export to Outlook" />
     <BulkExportButton />
     <BulkDeleteButton />

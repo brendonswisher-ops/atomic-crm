@@ -3,16 +3,18 @@ import {
   Form,
   useDataProvider,
   useGetIdentity,
+  useGetOne,
   useListContext,
   useRedirect,
   type GetListResult,
 } from "ra-core";
+import { useSearchParams } from "react-router";
 import { Create } from "@/components/admin/create";
 import { SaveButton } from "@/components/admin/form";
 import { FormToolbar } from "@/components/admin/simple-form";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
-import type { Deal } from "../types";
+import type { Contact, Deal } from "../types";
 import { DealInputs } from "./DealInputs";
 
 export const DealCreate = ({ open }: { open: boolean }) => {
@@ -71,15 +73,28 @@ export const DealCreate = ({ open }: { open: boolean }) => {
   };
 
   const { identity } = useGetIdentity();
+  const [searchParams] = useSearchParams();
+  const contactIdParam = searchParams.get("contact_id");
+  const contactId = contactIdParam ? Number(contactIdParam) : undefined;
+  const { data: contact } = useGetOne<Contact>(
+    "contacts",
+    { id: contactId as number },
+    { enabled: Number.isFinite(contactId) },
+  );
 
   return (
     <Dialog open={open} onOpenChange={() => handleClose()}>
       <DialogContent className="lg:max-w-4xl overflow-y-auto max-h-9/10 top-1/20 translate-y-0">
         <Create resource="deals" mutationOptions={{ onSuccess }}>
           <Form
+            key={contact?.id ?? contactId ?? "new-deal"}
             defaultValues={{
               sales_id: identity?.id,
-              contact_ids: [],
+              contact_ids:
+                contactId != null && Number.isFinite(contactId)
+                  ? [contactId]
+                  : [],
+              company_id: contact?.company_id,
               index: 0,
             }}
           >
