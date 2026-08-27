@@ -56,7 +56,10 @@ export const ContactActivityTimeline = ({
 
   const now = Date.now();
   const upcoming = tasks
-    .filter((task) => !task.done_date && new Date(task.due_date).getTime() >= now - 60_000)
+    .filter(
+      (task) =>
+        !task.done_date && new Date(task.due_date).getTime() >= now - 60_000,
+    )
     .sort(
       (a, b) =>
         new Date(a.due_date).getTime() - new Date(b.due_date).getTime(),
@@ -112,7 +115,9 @@ export const ContactActivityTimeline = ({
         ) : (
           <div className="space-y-4">
             {items.map((item, index) => (
-              <Fragment key={`${item.kind}-${item.kind === "note" ? item.note.id : item.task.id}`}>
+              <Fragment
+                key={`${item.kind}-${item.kind === "note" ? item.note.id : item.task.id}`}
+              >
                 {item.kind === "note" ? (
                   <div className="flex gap-3">
                     <StickyNote className="w-4 h-4 mt-1 shrink-0 text-muted-foreground" />
@@ -125,10 +130,7 @@ export const ContactActivityTimeline = ({
                     </div>
                   </div>
                 ) : (
-                  <LoggedTask
-                    task={item.task}
-                    taskTypes={taskTypes}
-                  />
+                  <LoggedTask task={item.task} taskTypes={taskTypes} />
                 )}
                 {index < items.length - 1 && <Separator />}
               </Fragment>
@@ -159,15 +161,10 @@ const LoggedTask = ({
       <div className="flex-1 min-w-0">
         <div className="text-sm">
           <span className="font-semibold">{label}</span>
-          {task.text ? ` \u2014 ${task.text}` : ""}
+          {task.text ? `: ${task.text}` : ""}
         </div>
         <div className="text-sm text-muted-foreground">
-          <DateField
-            source="done_date"
-            record={task}
-            showDate
-            showTime
-          />
+          <DateField source="done_date" record={task} showDate showTime />
         </div>
       </div>
     </div>

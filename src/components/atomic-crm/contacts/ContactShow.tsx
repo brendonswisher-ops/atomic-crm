@@ -222,6 +222,7 @@ const ContactShowContentMobile = () => {
 };
 
 const ContactShowContent = () => {
+  const translate = useTranslate();
   const { record, isPending } = useShowContext<Contact>();
   if (isPending || !record) return null;
 
@@ -238,7 +239,7 @@ const ContactShowContent = () => {
                 </h5>
                 <div className="inline-flex text-sm text-muted-foreground">
                   {record.title && record.company_id != null
-                    ? `${useTranslate()("resources.contacts.position_at", {
+                    ? `${translate("resources.contacts.position_at", {
                         title: record.title,
                       })} `
                     : record.title}
