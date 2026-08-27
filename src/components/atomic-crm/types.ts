@@ -118,6 +118,7 @@ export type Contact = {
   assistant_phone?: string | null;
   languages?: string | null;
   level?: string | null;
+  qep_status?: string;
 } & Pick<RaRecord, "id">;
 
 export type ContactNote = {
@@ -154,6 +155,21 @@ export type DealNote = {
 
   // This is defined for compatibility with `ContactNote`
   status?: undefined;
+} & Pick<RaRecord, "id">;
+
+export type Campaign = {
+  name: string;
+  description?: string | null;
+  status: string;
+  created_at: string;
+} & Pick<RaRecord, "id">;
+
+export type CampaignContact = {
+  campaign_id: Identifier;
+  contact_id: Identifier;
+  status: string;
+  note?: string | null;
+  created_at: string;
 } & Pick<RaRecord, "id">;
 
 export type Tag = {

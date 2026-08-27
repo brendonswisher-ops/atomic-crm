@@ -14,7 +14,7 @@ import { SimpleList } from "../simple-list/SimpleList";
 import { Avatar } from "../contacts/Avatar";
 import type { Contact } from "../types";
 
-export const HotContacts = () => {
+export const ToContact = () => {
   const { identity } = useGetIdentity();
   const translate = useTranslate();
   const {
@@ -25,8 +25,11 @@ export const HotContacts = () => {
     "contacts",
     {
       pagination: { page: 1, perPage: 10 },
-      sort: { field: "last_seen", order: "DESC" },
-      filter: { status: "hot", sales_id: identity?.id },
+      sort: { field: "last_seen", order: "ASC" },
+      filter: {
+        "status@in": "(new,contacted)",
+        sales_id: identity?.id,
+      },
     },
     { enabled: Number.isInteger(identity?.id) },
   );
@@ -38,7 +41,9 @@ export const HotContacts = () => {
           <Users className="text-muted-foreground w-6 h-6" />
         </div>
         <h2 className="text-xl font-semibold text-muted-foreground">
-          {translate("resources.contacts.hot.title")}
+          {translate("resources.contacts.to_contact.title", {
+            _: "To contact",
+          })}
         </h2>
         <TooltipProvider>
           <Tooltip>
@@ -84,11 +89,10 @@ export const HotContacts = () => {
           leftAvatar={(contact) => <Avatar record={contact} />}
           empty={
             <div className="p-4">
-              <p className="text-sm mb-4">
-                {translate("resources.contacts.hot.empty_hint")}
-              </p>
               <p className="text-sm">
-                {translate("resources.contacts.hot.empty_change_status")}
+                {translate("resources.contacts.to_contact.empty_hint", {
+                  _: "Mark people New or Contacted to see them here.",
+                })}
               </p>
             </div>
           }
@@ -97,3 +101,5 @@ export const HotContacts = () => {
     </div>
   );
 };
+
+export const HotContacts = ToContact;
