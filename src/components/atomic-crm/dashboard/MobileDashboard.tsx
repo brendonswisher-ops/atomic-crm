@@ -2,6 +2,7 @@ import { useGetList, useTimeout } from "ra-core";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import type { Contact, ContactNote } from "../types";
+import { ActivityByDay } from "./ActivityByDay";
 import { DashboardStepper } from "./DashboardStepper";
 import { HomeHeader } from "./HomeHeader";
 import { HotContacts } from "./HotContacts";
@@ -92,6 +93,7 @@ export const MobileDashboard = () => {
         <HotContacts />
         <StaleIntros />
         <UpcomingMeetings />
+        <ActivityByDay />
       </div>
     </Wrapper>
   );

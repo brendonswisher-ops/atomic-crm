@@ -128,6 +128,7 @@ export type ContactNote = {
   sales_id: Identifier;
   status: string;
   attachments?: AttachmentNote[];
+  outlook_message_id?: string | null;
 } & Pick<RaRecord, "id">;
 
 export type Deal = {
