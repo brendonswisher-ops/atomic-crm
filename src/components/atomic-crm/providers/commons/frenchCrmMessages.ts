@@ -515,6 +515,26 @@ export const frenchCrmMessages = {
       stale_intros_empty: "Aucune affaire en intro.",
       stale_intros_none: "Aucune intro inactive depuis 14 jours.",
       stale_intros_days: "%{days} j. d'inactivité",
+      activity_by_day: "Activité par jour",
+      activity_by_day_empty:
+        "Aucun e-mail, appel, réunion ou note au cours des 14 derniers jours.",
+      activity_by_day_error: "Impossible de charger l'activité.",
+      activity_kind: {
+        email: "E-mail",
+        call: "Appel",
+        meeting: "Réunion",
+        note: "Note",
+        follow_up: "Suivi",
+        other: "Tâche",
+      },
+      activity_count: {
+        email: "%{smart_count} e-mail |||| %{smart_count} e-mails",
+        call: "%{smart_count} appel |||| %{smart_count} appels",
+        meeting: "%{smart_count} réunion |||| %{smart_count} réunions",
+        note: "%{smart_count} note |||| %{smart_count} notes",
+        follow_up: "%{smart_count} suivi |||| %{smart_count} suivis",
+        other: "%{smart_count} tâche |||| %{smart_count} tâches",
+      },
     },
     header: {
       import_data: "Importer des données",
