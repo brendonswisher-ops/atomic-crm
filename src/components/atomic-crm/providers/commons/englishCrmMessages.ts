@@ -191,8 +191,8 @@ export const englishCrmMessages = {
         title: "Hot Contacts",
       },
       to_contact: {
-        title: "To contact",
-        empty_hint: "Mark people New or Contacted to see them here.",
+        title: "Today's outreach",
+        empty_hint: "New or Contacted people assigned to you appear here.",
       },
       views: {
         all: "All",
@@ -496,6 +496,16 @@ export const englishCrmMessages = {
       upcoming_meetings: "Upcoming meetings",
       upcoming_meetings_empty: "No upcoming meetings.",
       meeting_fallback: "Meeting",
+      wordmark: "Deep Field Capital AG",
+      zurich: "Z\u00fcrich",
+      raise_title: "STMS raise",
+      pipeline_snapshot: "Pipeline",
+      pipeline_stms_of_total: "%{stms} STMS of %{total}",
+      pipeline_all_deals: "All deals",
+      stale_intros: "Stale intros",
+      stale_intros_empty: "No intro deals.",
+      stale_intros_none: "No intros idle for 14 days.",
+      stale_intros_days: "%{days}d idle",
     },
     header: {
       import_data: "Import data",
