@@ -43,6 +43,9 @@ describe("i18nProvider", () => {
     expect(i18nProvider.translate("resources.deals.empty.title")).toBe(
       "Aucune affaire trouvée",
     );
+    expect(i18nProvider.translate("crm.dashboard.activity_by_day")).toBe(
+      "Activité par jour",
+    );
   });
 
   it("uses browser french locale when available", () => {
