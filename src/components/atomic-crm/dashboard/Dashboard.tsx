@@ -1,6 +1,7 @@
 import { useGetList } from "ra-core";
 
 import type { Contact, ContactNote } from "../types";
+import { ActivityByDay } from "./ActivityByDay";
 import { DashboardStepper } from "./DashboardStepper";
 import { HomeHeader } from "./HomeHeader";
 import { HotContacts } from "./HotContacts";
@@ -49,6 +50,7 @@ export const Dashboard = () => {
         <UpcomingMeetings />
         <TasksList />
       </div>
+      <ActivityByDay />
     </div>
   );
 };
