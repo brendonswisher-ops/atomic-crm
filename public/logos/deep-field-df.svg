@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" role="img" aria-label="Deep Field">
+  <defs>
+    <linearGradient id="dfGold" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#B8942E"/>
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="8" fill="url(#dfGold)"/>
+  <text x="20" y="26.5" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="700" fill="#0A1428" letter-spacing="-0.4">DF</text>
+</svg>

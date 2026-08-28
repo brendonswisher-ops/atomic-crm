@@ -42,7 +42,7 @@ export const ToContact = () => {
         </div>
         <h2 className="text-xl font-semibold text-muted-foreground">
           {translate("resources.contacts.to_contact.title", {
-            _: "To contact",
+            _: "Today's outreach",
           })}
         </h2>
         <TooltipProvider>
@@ -91,7 +91,7 @@ export const ToContact = () => {
             <div className="p-4">
               <p className="text-sm">
                 {translate("resources.contacts.to_contact.empty_hint", {
-                  _: "Mark people New or Contacted to see them here.",
+                  _: "New or Contacted people assigned to you appear here.",
                 })}
               </p>
             </div>
