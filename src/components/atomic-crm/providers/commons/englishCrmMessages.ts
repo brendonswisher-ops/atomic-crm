@@ -506,6 +506,26 @@ export const englishCrmMessages = {
       stale_intros_empty: "No intro deals.",
       stale_intros_none: "No intros idle for 14 days.",
       stale_intros_days: "%{days}d idle",
+      activity_by_day: "Activity by day",
+      activity_by_day_empty:
+        "No emails, calls, meetings, or notes in the last 14 days.",
+      activity_by_day_error: "Could not load activity.",
+      activity_kind: {
+        email: "Email",
+        call: "Call",
+        meeting: "Meeting",
+        note: "Note",
+        follow_up: "Follow-up",
+        other: "Task",
+      },
+      activity_count: {
+        email: "%{smart_count} email |||| %{smart_count} emails",
+        call: "%{smart_count} call |||| %{smart_count} calls",
+        meeting: "%{smart_count} meeting |||| %{smart_count} meetings",
+        note: "%{smart_count} note |||| %{smart_count} notes",
+        follow_up: "%{smart_count} follow-up |||| %{smart_count} follow-ups",
+        other: "%{smart_count} task |||| %{smart_count} tasks",
+      },
     },
     header: {
       import_data: "Import data",
