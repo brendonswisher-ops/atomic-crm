@@ -3,6 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import type { Contact, ContactNote } from "../types";
 import { ActivityByDay } from "./ActivityByDay";
+import { AlpsBackdrop } from "./AlpsBackdrop";
 import { DashboardStepper } from "./DashboardStepper";
 import { HomeHeader } from "./HomeHeader";
 import { HotContacts } from "./HotContacts";
@@ -33,7 +34,12 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
           <h1 className="text-xl font-semibold">{title}</h1>
         </div>
       </MobileHeader>
-      <MobileContent>{children}</MobileContent>
+      <MobileContent>
+        <div className="relative -mx-4 -mt-4 min-h-[calc(100vh-5rem)] px-4 pt-5 pb-8">
+          <AlpsBackdrop />
+          <div className="relative z-10">{children}</div>
+        </div>
+      </MobileContent>
     </>
   );
 };
