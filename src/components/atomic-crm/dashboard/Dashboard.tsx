@@ -13,10 +13,12 @@ import { UpcomingMeetings } from "./UpcomingMeetings";
 import { Welcome } from "./Welcome";
 
 const DashboardShell = ({ children }: { children: React.ReactNode }) => (
-  <div className="relative -mx-4 -mt-4 min-h-[calc(100vh-3.5rem)] px-4 pt-5 pb-10">
+  <>
     <AlpsBackdrop />
-    <div className="relative z-10 flex flex-col gap-6">{children}</div>
-  </div>
+    <div className="relative z-[1] flex flex-col gap-6 mt-1 pb-10">
+      {children}
+    </div>
+  </>
 );
 
 export const Dashboard = () => {
