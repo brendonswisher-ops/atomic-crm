@@ -37,11 +37,11 @@ export const PipelineSnapshot = () => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-baseline justify-between gap-3">
-        <h2 className="text-xl font-semibold text-muted-foreground">
+        <h2 className="text-xl font-semibold text-white">
           {translate("crm.dashboard.pipeline_snapshot", { _: "Pipeline" })}
         </h2>
         {!isPending && total > 0 ? (
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-[#8B9DB8]">
             {stmsCount > 0
               ? translate("crm.dashboard.pipeline_stms_of_total", {
                   stms: stmsCount,
@@ -66,12 +66,12 @@ export const PipelineSnapshot = () => {
             <Link
               key={stage}
               to={{ pathname: "/deals", search }}
-              className="rounded-xl border bg-card px-4 py-3 hover:bg-muted/50 transition-colors"
+              className="rounded-xl border border-white/10 bg-[#0D1A2D]/80 px-4 py-3 hover:bg-[#162442]/80 transition-colors"
             >
-              <p className="text-xs uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs uppercase tracking-wider text-[#8B9DB8]">
                 {label}
               </p>
-              <p className="text-2xl font-semibold tabular-nums mt-1">
+              <p className="text-2xl font-semibold tabular-nums mt-1 text-white">
                 {count}
               </p>
             </Link>

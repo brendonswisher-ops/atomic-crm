@@ -19,6 +19,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
   const { darkModeLogo, lightModeLogo, title } = useConfigurationContext();
   return (
     <>
+      <AlpsBackdrop />
       <MobileHeader>
         <div className="flex items-center gap-2 text-secondary-foreground no-underline py-3">
           <img
@@ -34,12 +35,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
           <h1 className="text-xl font-semibold">{title}</h1>
         </div>
       </MobileHeader>
-      <MobileContent>
-        <div className="relative -mx-4 -mt-4 min-h-[calc(100vh-5rem)] px-4 pt-5 pb-8">
-          <AlpsBackdrop />
-          <div className="relative z-10">{children}</div>
-        </div>
-      </MobileContent>
+      <MobileContent>{children}</MobileContent>
     </>
   );
 };
