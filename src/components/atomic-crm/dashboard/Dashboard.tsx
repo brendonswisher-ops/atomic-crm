@@ -2,6 +2,7 @@ import { useGetList } from "ra-core";
 
 import type { Contact, ContactNote } from "../types";
 import { ActivityByDay } from "./ActivityByDay";
+import { AlpsBackdrop } from "./AlpsBackdrop";
 import { DashboardStepper } from "./DashboardStepper";
 import { HomeHeader } from "./HomeHeader";
 import { HotContacts } from "./HotContacts";
@@ -10,6 +11,13 @@ import { StaleIntros } from "./StaleIntros";
 import { TasksList } from "./TasksList";
 import { UpcomingMeetings } from "./UpcomingMeetings";
 import { Welcome } from "./Welcome";
+
+const DashboardShell = ({ children }: { children: React.ReactNode }) => (
+  <div className="relative -mx-4 -mt-4 min-h-[calc(100vh-3.5rem)] px-4 pt-5 pb-10">
+    <AlpsBackdrop />
+    <div className="relative z-10 flex flex-col gap-6">{children}</div>
+  </div>
+);
 
 export const Dashboard = () => {
   const {
@@ -32,15 +40,23 @@ export const Dashboard = () => {
   }
 
   if (!totalContact) {
-    return <DashboardStepper step={1} />;
+    return (
+      <DashboardShell>
+        <DashboardStepper step={1} />
+      </DashboardShell>
+    );
   }
 
   if (!totalContactNotes) {
-    return <DashboardStepper step={2} contactId={dataContact?.[0]?.id} />;
+    return (
+      <DashboardShell>
+        <DashboardStepper step={2} contactId={dataContact?.[0]?.id} />
+      </DashboardShell>
+    );
   }
 
   return (
-    <div className="flex flex-col gap-6 mt-1">
+    <DashboardShell>
       {import.meta.env.VITE_IS_DEMO === "true" ? <Welcome /> : null}
       <HomeHeader />
       <PipelineSnapshot />
@@ -51,6 +67,6 @@ export const Dashboard = () => {
         <TasksList />
       </div>
       <ActivityByDay />
-    </div>
+    </DashboardShell>
   );
 };

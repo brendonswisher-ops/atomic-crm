@@ -9,7 +9,7 @@ export const HomeHeader = () => {
   const translate = useTranslate();
 
   return (
-    <div className="relative overflow-hidden rounded-xl px-5 py-5 md:px-6 md:py-6 bg-[#0A1428]">
+    <div className="relative overflow-hidden rounded-xl px-5 py-5 md:px-6 md:py-6 bg-[#0A1428]/80 backdrop-blur-sm border border-[#D4AF37]/20">
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-60" />
       <div className="flex items-center gap-3">
         <div className="relative flex-shrink-0">
