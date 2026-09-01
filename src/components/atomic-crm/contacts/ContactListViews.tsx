@@ -2,6 +2,14 @@ import { useListContext, useTranslate } from "ra-core";
 import { Button } from "@/components/ui/button";
 
 const FAMILY_OFFICE_TAG_FILTER = "{2}";
+const CTA_TAG_FILTER = "{36}";
+const ALLOCATOR_TAG_FILTER = "{37}";
+
+const VIEW_TAG_FILTERS = new Set([
+  FAMILY_OFFICE_TAG_FILTER,
+  CTA_TAG_FILTER,
+  ALLOCATOR_TAG_FILTER,
+]);
 
 export type ContactViewId =
   | "all"
@@ -9,6 +17,8 @@ export type ContactViewId =
   | "contacted"
   | "qualified"
   | "family_office"
+  | "cta"
+  | "allocators"
   | "kanban";
 
 const VIEWS: {
@@ -34,6 +44,16 @@ const VIEWS: {
     fallback: "Family office",
   },
   {
+    id: "cta",
+    label: "resources.contacts.views.cta",
+    fallback: "CTA / STMS",
+  },
+  {
+    id: "allocators",
+    label: "resources.contacts.views.allocators",
+    fallback: "Allocators",
+  },
+  {
     id: "kanban",
     label: "resources.contacts.views.kanban",
     fallback: "Kanban",
@@ -50,6 +70,12 @@ export const getActiveContactView = (
   if (filterValues?.status === "qualified") return "qualified";
   if (filterValues?.["tags@cs"] === FAMILY_OFFICE_TAG_FILTER) {
     return "family_office";
+  }
+  if (filterValues?.["tags@cs"] === CTA_TAG_FILTER) {
+    return "cta";
+  }
+  if (filterValues?.["tags@cs"] === ALLOCATOR_TAG_FILTER) {
+    return "allocators";
   }
   return "all";
 };
@@ -68,7 +94,7 @@ export const ContactListViews = ({
   const applyView = (view: ContactViewId) => {
     const nextFilters = { ...(filterValues || {}) };
     delete nextFilters.status;
-    if (nextFilters["tags@cs"] === FAMILY_OFFICE_TAG_FILTER) {
+    if (VIEW_TAG_FILTERS.has(String(nextFilters["tags@cs"]))) {
       delete nextFilters["tags@cs"];
     }
 
@@ -77,6 +103,12 @@ export const ContactListViews = ({
     if (view === "qualified") nextFilters.status = "qualified";
     if (view === "family_office") {
       nextFilters["tags@cs"] = FAMILY_OFFICE_TAG_FILTER;
+    }
+    if (view === "cta") {
+      nextFilters["tags@cs"] = CTA_TAG_FILTER;
+    }
+    if (view === "allocators") {
+      nextFilters["tags@cs"] = ALLOCATOR_TAG_FILTER;
     }
 
     onKanbanChange(view === "kanban");
