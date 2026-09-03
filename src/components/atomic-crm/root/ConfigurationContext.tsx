@@ -21,6 +21,21 @@ export interface ConfigurationContextValue {
   disableEmailPasswordAuthentication?: boolean;
 }
 
+const mergeNoteStatuses = (
+  stored: NoteStatus[] | undefined,
+  defaults: NoteStatus[],
+): NoteStatus[] => {
+  if (!stored?.length) return defaults;
+  const byValue = new Map(stored.map((status) => [status.value, status]));
+  const extras = stored.filter(
+    (status) => !defaults.some((item) => item.value === status.value),
+  );
+  return [
+    ...defaults.map((item) => byValue.get(item.value) ?? item),
+    ...extras,
+  ];
+};
+
 export const useConfigurationContext = () => {
   const [config] = useStore<ConfigurationContextValue>(
     CONFIGURATION_STORE_KEY,
@@ -28,7 +43,17 @@ export const useConfigurationContext = () => {
   );
   // Merge with defaults so that missing fields in stored config
   // fall back to default values (e.g. when new settings are added)
-  return useMemo(() => ({ ...defaultConfiguration, ...config }), [config]);
+  return useMemo(
+    () => ({
+      ...defaultConfiguration,
+      ...config,
+      noteStatuses: mergeNoteStatuses(
+        config?.noteStatuses,
+        defaultConfiguration.noteStatuses,
+      ),
+    }),
+    [config],
+  );
 };
 
 export const useConfigurationUpdater = () => {

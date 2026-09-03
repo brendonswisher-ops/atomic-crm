@@ -39,6 +39,9 @@ export const defaultDealCategories = [
 export const defaultNoteStatuses = [
   { value: "new", label: "New", color: "#94a3b8" },
   { value: "contacted", label: "Contacted", color: "#7dbde8" },
+  { value: "interested", label: "Interested", color: "#f5c542" },
+  { value: "liquid", label: "Liquid", color: "#5eead4" },
+  { value: "cooperative", label: "Cooperative", color: "#c4b5fd" },
   { value: "qualified", label: "Qualified", color: "#a4e87d" },
   { value: "unqualified", label: "Unqualified", color: "#e8cb7d" },
   { value: "do_not_contact", label: "Do not contact", color: "#e88b7d" },
