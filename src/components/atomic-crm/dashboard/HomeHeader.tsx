@@ -34,7 +34,13 @@ export const HomeHeader = () => {
             </span>
           </div>
           <p className="text-sm font-medium tracking-wide mt-0.5 text-[#D4AF37]">
-            {translate("crm.dashboard.raise_title", { _: "STMS raise" })}
+            {translate("crm.dashboard.raise_title", { _: "S&P + STMS raise" })}
+          </p>
+          <p className="text-xs text-[#8B9DB8] mt-1 leading-relaxed">
+            {translate("crm.dashboard.raise_note", {
+              _:
+                "Equity-index futures sleeve (weight TBD — confirm with Arne before pitching a fixed mix).",
+            })}
           </p>
         </div>
       </div>
