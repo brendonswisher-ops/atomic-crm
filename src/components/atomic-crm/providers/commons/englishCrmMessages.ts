@@ -498,7 +498,9 @@ export const englishCrmMessages = {
       meeting_fallback: "Meeting",
       wordmark: "Deep Field Capital AG",
       zurich: "Z\u00fcrich",
-      raise_title: "STMS raise",
+      raise_title: "S&P + STMS raise",
+      raise_note:
+        "Equity-index futures sleeve (weight TBD — confirm with Arne before pitching a fixed mix).",
       pipeline_snapshot: "Pipeline",
       pipeline_stms_of_total: "%{stms} STMS of %{total}",
       pipeline_all_deals: "All deals",
