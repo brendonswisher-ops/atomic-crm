@@ -411,7 +411,8 @@ export const englishCrmMessages = {
       },
       empty: {
         title: "No outreach lists found",
-        description: "Create an outreach list to track who you have introduced.",
+        description:
+          "Create an outreach list to track who you have introduced.",
         members: "No contacts in this list yet.",
       },
       statuses: {
@@ -464,6 +465,18 @@ export const englishCrmMessages = {
     },
     changelog: {
       title: "Changelog",
+    },
+    email_reply: {
+      action: "Send email",
+      body: "Body",
+      error: "Could not send email: %{message}",
+      missing_fields: "Please fill in To, Subject, and Body.",
+      reply_to_note: "Reply by email",
+      send: "Send",
+      subject: "Subject",
+      success: "Email sent and logged on the contact.",
+      title: "Send email",
+      to: "To",
     },
     activity: {
       added_company: "%{name} added company",

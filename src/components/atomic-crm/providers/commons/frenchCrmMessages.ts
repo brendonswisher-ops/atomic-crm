@@ -473,6 +473,19 @@ export const frenchCrmMessages = {
     changelog: {
       title: "Notes de version",
     },
+    email_reply: {
+      action: "Envoyer un e-mail",
+      body: "Message",
+      error: "Impossible d'envoyer l'e-mail : %{message}",
+      missing_fields:
+        "Veuillez renseigner le destinataire, l'objet et le message.",
+      reply_to_note: "Répondre par e-mail",
+      send: "Envoyer",
+      subject: "Objet",
+      success: "E-mail envoyé et enregistré sur le contact.",
+      title: "Envoyer un e-mail",
+      to: "À",
+    },
     activity: {
       added_company: "%{name} a ajouté l'entreprise",
       you_added_company: "Vous avez ajouté l'entreprise",

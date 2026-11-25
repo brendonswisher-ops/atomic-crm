@@ -1,9 +1,12 @@
-import { CircleX, Edit, Save, Trash2 } from "lucide-react";
+import { CircleX, Edit, Reply, Save, Trash2 } from "lucide-react";
 import {
   Form,
   useDelete,
   useGetIdentity,
+  useListContext,
   useNotify,
+  useRecordContext,
+  useRefresh,
   useResourceContext,
   useTranslate,
   useUpdate,
@@ -24,7 +27,13 @@ import { CompanyAvatar } from "../companies/CompanyAvatar";
 import { Markdown } from "../misc/Markdown";
 import { RelativeDate } from "../misc/RelativeDate";
 import { Status } from "../misc/Status";
-import type { ContactNote, DealNote } from "../types";
+import type { Contact, ContactNote, DealNote } from "../types";
+import { ContactEmailReplyDialog } from "../contacts/ContactEmailReplyDialog";
+import {
+  defaultReplySubject,
+  replyToNoteSubject,
+} from "../contacts/contactEmailUtils";
+import { useConfigurationContext } from "../root/ConfigurationContext";
 import { NoteAttachments } from "./NoteAttachments";
 import { NoteInputs } from "./NoteInputs";
 import { useGetSalesName } from "../sales/useGetSalesName";
@@ -39,13 +48,19 @@ export const Note = ({
 }) => {
   const [isHover, setHover] = useState(false);
   const [isEditing, setEditing] = useState(false);
+  const [emailReplyOpen, setEmailReplyOpen] = useState(false);
   const [isExpanded, setExpanded] = useState(false);
   const [isTruncated, setTruncated] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const resource = useResourceContext();
+  const contact = useRecordContext<Contact>();
+  const { title: crmTitle } = useConfigurationContext();
   const notify = useNotify();
   const translate = useTranslate();
+  const refresh = useRefresh();
   const { identity } = useGetIdentity();
+  const { refetch: refetchNotes } = useListContext();
+  const isContactNote = resource === "contact_notes" && !!contact;
   const isCurrentUser = note.sales_id === identity?.id;
   const salesName = useGetSalesName(note.sales_id, {
     enabled: !isCurrentUser,
@@ -77,6 +92,10 @@ export const Note = ({
   const handleDelete = () => {
     deleteNote(resource, { id: note.id, previousData: note });
   };
+
+  const crmDisplayTitle = crmTitle === "Atomic CRM" ? "Deep Field" : crmTitle;
+  const replySubject =
+    replyToNoteSubject(note.text) ?? defaultReplySubject(crmDisplayTitle);
 
   const handleEnterEditMode = () => {
     setEditing(!isEditing);
@@ -122,6 +141,29 @@ export const Note = ({
           )}
         </div>
         <span className={`${isHover ? "visible" : "invisible"}`}>
+          {isContactNote && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setEmailReplyOpen(true)}
+                    className="p-1 h-auto cursor-pointer"
+                  >
+                    <Reply className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    {translate("crm.email_reply.reply_to_note", {
+                      _: "Reply by email",
+                    })}
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -218,5 +260,21 @@ export const Note = ({
     </div>
   );
 
-  return content;
+  return (
+    <>
+      {content}
+      {isContactNote && (
+        <ContactEmailReplyDialog
+          open={emailReplyOpen}
+          onOpenChange={setEmailReplyOpen}
+          contact={contact}
+          initialSubject={replySubject}
+          onSent={() => {
+            refetchNotes();
+            refresh();
+          }}
+        />
+      )}
+    </>
+  );
 };
