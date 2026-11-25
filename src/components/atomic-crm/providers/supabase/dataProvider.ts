@@ -225,6 +225,51 @@ const getDataProviderWithCustomMethods = () => {
 
       return data;
     },
+    async sendContactEmail({
+      contactId,
+      to,
+      subject,
+      body,
+      noteStatus = "contacted",
+    }: {
+      contactId: Identifier;
+      to: string;
+      subject: string;
+      body: string;
+      noteStatus?: string;
+    }) {
+      const { data, error } = await getSupabaseClient().functions.invoke(
+        "send_contact_email",
+        {
+          method: "POST",
+          body: { contactId, to, subject, body, noteStatus },
+        },
+      );
+
+      if (error) {
+        console.error("send_contact_email.error", error);
+        throw new Error(error.message || "Failed to send email");
+      }
+
+      if (
+        data &&
+        typeof data === "object" &&
+        "message" in data &&
+        !data.success
+      ) {
+        throw new Error(
+          typeof data.message === "string"
+            ? data.message
+            : "Failed to send email",
+        );
+      }
+
+      return data as {
+        success: true;
+        note: ContactNote;
+        noteStatus: string;
+      };
+    },
     async getConfiguration(): Promise<ConfigurationContextValue> {
       const { data } = await baseDataProvider.getOne("configuration", {
         id: 1,

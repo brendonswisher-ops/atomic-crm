@@ -297,6 +297,67 @@ export const createDataProvider = ({
     mergeContacts: async (sourceId: Identifier, targetId: Identifier) => {
       return mergeContacts(sourceId, targetId, baseDataProvider);
     },
+    sendContactEmail: async ({
+      contactId,
+      to,
+      subject,
+      body,
+      noteStatus = "contacted",
+    }: {
+      contactId: Identifier;
+      to: string;
+      subject: string;
+      body: string;
+      noteStatus?: string;
+    }) => {
+      const currentUser = await getIdentity();
+      if (!currentUser) {
+        throw new Error("User not found");
+      }
+
+      const noteText = `**[Sent email]**
+
+**To:** ${to}
+
+**Subject:** ${subject}
+
+${body}`;
+
+      const { data: note } = await baseDataProvider.create<ContactNote>(
+        "contact_notes",
+        {
+          data: {
+            contact_id: contactId,
+            text: noteText,
+            sales_id: currentUser.id,
+            status: noteStatus,
+            date: new Date().toISOString(),
+          },
+        },
+      );
+
+      const { data: previousContact } = await baseDataProvider.getOne<Contact>(
+        "contacts",
+        { id: contactId },
+      );
+
+      if (previousContact) {
+        await baseDataProvider.update("contacts", {
+          id: contactId,
+          data: {
+            status: noteStatus,
+            last_seen: new Date().toISOString(),
+          },
+          previousData: previousContact,
+        });
+      }
+
+      return {
+        success: true as const,
+        note,
+        noteStatus,
+      };
+    },
     getConfiguration: async (): Promise<ConfigurationContextValue> => {
       const { data } = await baseDataProvider.getOne("configuration", {
         id: 1,

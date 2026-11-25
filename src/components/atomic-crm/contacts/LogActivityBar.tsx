@@ -1,10 +1,11 @@
-import { Calendar, Mail, Phone } from "lucide-react";
+import { Calendar, Mail, Phone, Send } from "lucide-react";
 import {
   CreateBase,
   Form,
   required,
   useDataProvider,
   useGetIdentity,
+  useListContext,
   useNotify,
   useRecordContext,
   useTranslate,
@@ -24,6 +25,7 @@ import {
 } from "@/components/ui/dialog";
 
 import type { Contact } from "../types";
+import { ContactEmailReplyDialog } from "./ContactEmailReplyDialog";
 
 type ActivityKind = "call" | "email" | "meeting";
 
@@ -67,7 +69,9 @@ export const LogActivityBar = ({ onLogged }: { onLogged?: () => void }) => {
   const [update] = useUpdate();
   const notify = useNotify();
   const translate = useTranslate();
+  const { refetch: refetchNotes } = useListContext();
   const [kind, setKind] = useState<ActivityKind | null>(null);
+  const [emailReplyOpen, setEmailReplyOpen] = useState(false);
 
   if (!identity || !contact) return null;
 
@@ -120,6 +124,16 @@ export const LogActivityBar = ({ onLogged }: { onLogged?: () => void }) => {
           variant="outline"
           size="sm"
           className="h-8 cursor-pointer"
+          onClick={() => setEmailReplyOpen(true)}
+        >
+          <Send className="w-4 h-4" />
+          {translate("crm.email_reply.action", { _: "Send email" })}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="h-8 cursor-pointer"
           onClick={() => setKind("meeting")}
         >
           <Calendar className="w-4 h-4" />
@@ -128,6 +142,16 @@ export const LogActivityBar = ({ onLogged }: { onLogged?: () => void }) => {
           })}
         </Button>
       </div>
+
+      <ContactEmailReplyDialog
+        open={emailReplyOpen}
+        onOpenChange={setEmailReplyOpen}
+        contact={contact}
+        onSent={() => {
+          refetchNotes();
+          onLogged?.();
+        }}
+      />
 
       {config && (
         <CreateBase
@@ -169,9 +193,7 @@ export const LogActivityBar = ({ onLogged }: { onLogged?: () => void }) => {
                     transform={(values) => ({
                       ...values,
                       type: config.type,
-                      done_date: config.done
-                        ? values.due_date || now
-                        : null,
+                      done_date: config.done ? values.due_date || now : null,
                     })}
                   />
                 </DialogFooter>
